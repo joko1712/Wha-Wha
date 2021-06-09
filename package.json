@@ -1,0 +1,64 @@
+{
+  "name": "listasprojeto",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@ant-design/react-native": "^4.1.0",
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-firebase/app": "^12.0.0",
+    "@react-native-firebase/auth": "^12.0.0",
+    "@react-native-firebase/firestore": "^12.0.0",
+    "@react-native-google-signin/google-signin": "^6.0.0",
+    "@react-native-voice/voice": "^3.2.0",
+    "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.5",
+    "firebase": "^8.6.5",
+    "firebase-admin": "^9.9.0",
+    "firestore": "^1.1.6",
+    "react": "17.0.1",
+    "react-native": "0.64.2",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-vector-icons": "^8.1.0",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/react": "^17.0.9",
+    "@types/react-native": "^0.64.10",
+    "@types/styled-components": "^5.1.9",
+    "@types/styled-components-react-native": "^5.1.1",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-styled-components": "^1.12.0",
+    "eslint": "7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.64.0",
+    "react-test-renderer": "17.0.1",
+    "typescript": "^4.3.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "description": "Voice app",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "proxy": "http://localhost:8081",
+  "plugins": [
+    [
+      "@react-native-voice/voice",
+      {
+        "microphonePermission": "CUSTOM: Allow $(PRODUCT_NAME) to access the microphone",
+        "speechRecognitionPermission": "CUSTOM: Allow $(PRODUCT_NAME) to securely recognize user speech"
+      }
+    ]
+  ]
+}
