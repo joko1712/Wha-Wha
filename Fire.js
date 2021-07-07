@@ -18,20 +18,14 @@ class Fire {
 
    init(callback) {
       if (!firestore.length) {
-        firestore.initializeApp(firestoreConfig);
+         firestore.initializeApp(firestoreConfig);
       }
 
       auth().onAuthStateChanged((user) => {
          if (user) {
             callback(null, user);
-         } else {
-            auth()
-            .signInAnonymously()
-            .catch((error) => {
-              callback(error);
-            });
          }
-      });
+      })
    }
 
    getLists(callback) {
@@ -72,9 +66,9 @@ class Fire {
 
    get ref() {
       return firestore()
-      .collection("users")
-      .doc(this.userId)
-      .collection("lists");
+         .collection("users")
+         .doc(this.userId)
+         .collection("lists");
    }
 
    detach() {

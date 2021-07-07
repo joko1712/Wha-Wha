@@ -82,7 +82,7 @@ export default class Listas extends React.Component {
               </Text>
 
               <View style={{ flexDirection: "row" }}>
-                 <View style={{ marginRight: 50, marginTop: 5 }}>
+                 <View style={{ marginRight: 30, marginLeft:50, marginTop: 5 }}>
                     <View style={{ alignItems: "center" }}>
                        <FlatList
                           data={list.lista
@@ -99,7 +99,7 @@ export default class Listas extends React.Component {
                     </View>
                  </View>
 
-                 <View>
+                 <View style={{ marginRight: 50}}>
                     <View style={{ alignItems: "center" }}>
                        <Text style={styles.count}>{remaining}</Text>
                        <Text style={styles.subtitle}>Remaining</Text>

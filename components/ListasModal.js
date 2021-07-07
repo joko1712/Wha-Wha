@@ -9,16 +9,80 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Keyboard,
+  TouchableHighlight
 } from 'react-native';
 import Colors from '../Colors';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Voice from '@react-native-voice/voice';
+import Feather from 'react-native-vector-icons/Feather';
 
 
 export default class ListasModal extends React.Component {
   state = {
      newLista: "",
+     end: '',
+     started: '',
   };
+
+  constructor(props) {
+      super(props);
+      Voice.onSpeechStart = this.onSpeechStart;
+      Voice.onSpeechEnd = this.onSpeechEnd;
+      Voice.onSpeechResults = this.onSpeechResults;
+   }
+
+   componentWillUnmount() {
+      Voice.destroy().then(Voice.removeAllListeners);
+   }
+
+   onSpeechStart = (e) => {
+      console.log('onSpeechStart: ', e);
+      this.setState({
+         started: '√',
+      });
+   };
+
+   onSpeechEnd = (e) => {
+      console.log('onSpeechEnd: ', e);
+      this.setState({
+         end: '√',
+      });
+   };
+
+   onSpeechResults = (e) => {
+      console.log('onSpeechResults: ', e);
+      this.setState({
+         newLista: e.value[0].toUpperCase()
+      });
+   };
+
+   _startRecognizing = async () => {
+      this.setState({
+         newLista: '',
+         started: '',
+         end: '',
+      });
+
+      try {
+         await Voice.start('pt-PT');
+      } catch (e) {
+         console.error(e);
+      }
+   };
+
+   _destroyRecognizer = async () => {
+      try {
+         await Voice.destroy();
+      } catch (e) {
+         console.error(e);
+      }
+      this.setState({
+         started: '',
+         newLista: '',
+         end: '',
+      });
+   };
 
   toggleListaBought = (index) => {
      let list = this.props.list;
@@ -39,7 +103,7 @@ export default class ListasModal extends React.Component {
      this.setState({ newLista: "" });
      Keyboard.dismiss();
   };
-
+  
   deleteItem = (index) => {
      let list = this.props.list;
      list.lista.splice(index, 1);
@@ -130,7 +194,15 @@ export default class ListasModal extends React.Component {
                  />
               </View>
 
+              <Text style={styles.result}>{this.state.name}</Text>
+               <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
+                  <Feather name='mic' size={50} color={Colors.amethyst} />
+               </TouchableHighlight>
+
               <View style={[styles.section, styles.footer]}>
+                  <TouchableHighlight style={styles.destroy} onPress={this._destroyRecognizer}>
+                     <Text>Clear</Text>
+                  </TouchableHighlight>
                  <TextInput
                     style={[styles.input, { borderColor: list.color }]}
                     onChangeText={(text) => this.setState({ newLista: text })}
@@ -221,5 +293,28 @@ const styles = StyleSheet.create({
      justifyContent: "center",
      alignItems: "center",
      backgroundColor: "#F5FCFF",
+   },
+   destroy: {
+      height: 50,
+      borderRadius: 6,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: Colors.red,
+      width: 55,
+      marginRight: 5
   },
+  button:{
+      position: 'absolute',
+      right: 30,
+      bottom: 80
+  },
+  result:{
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
+      marginVertical: 10,
+      fontWeight: '900',
+      paddingTop: 5
+   },
+
 });

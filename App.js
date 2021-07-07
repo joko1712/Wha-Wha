@@ -7,20 +7,20 @@ import {
   FlatList,
   Modal,
   ActivityIndicator,
+  Alert
 } from 'react-native';
 import Colors from './Colors';
 import Listas from './components/Listas';
 import AddListaModal from './components/AddListaModal';
-import SettingsModal from './components/SettingsModal';
 import Fire from './Fire';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import auth from "@react-native-firebase/auth";
 
 
 export default class App extends React.Component {
   state = {
      addListaVisible: false,
-     settingsModalVisible: false,
      lists: [],
      user: {},
      loading: true,
@@ -38,17 +38,27 @@ export default class App extends React.Component {
               this.setState({ loading: false });
            });
         });
-
         this.setState({ user });
      });
-  }
+     if (auth().currentUser.emailVerified==false){
+         auth().currentUser.sendEmailVerification();
+         Alert.alert(
+            "Please Verify Your E-mail",
+            `Go to your E-mail Verify your Account`,
+            [
+               {
+                  text: "Ok",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+               }
+            ]
+         );
+
+      };
+   }
 
   componentWillUnmount() {
     firestore.detach();
-  }
-
-  toggleSettingsModal() {
-     this.setState({ settingsModalVisible: !this.state.settingsModalVisible });
   }
 
   toggleAddListaModal() {
@@ -87,15 +97,15 @@ export default class App extends React.Component {
            <View style={styles.container}>
               <ActivityIndicator size='large' color={Colors.mTurqoise} />
            </View>
-        );
-     }
+         );
+      }
 
      const cartas = this.state.lists.reverse();
 
      return (
         <View style={styles.container}>
            <LinearGradient
-              colors={[Colors.purple, Colors.white]}
+              colors={[Colors.purple, Colors.gray]}
               style={styles.linearGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}>
@@ -108,20 +118,11 @@ export default class App extends React.Component {
                     addList={this.addList}
                  />
               </Modal>
-
-              <Modal
-                 animationType='slide'
-                 visible={this.state.settingsModalVisible}>
-                 <SettingsModal
-                    closeModal={() => this.toggleSettingsModal()}
-                 />
-              </Modal>
-
               <View style={{ flexDirection: "row" }}>
                  <View style={styles.divider} />
 
                  <Text style={styles.title}>
-                    <Text style={{ fontWeight: "300", color: Colors.purple }}>
+                    <Text style={{ fontWeight: "300", color: Colors.amethyst }}>
                        Wha
                     </Text>
                     <Text style={{ fontWeight: "300", color: Colors.tBLue }}>
@@ -143,13 +144,13 @@ export default class App extends React.Component {
                  <TouchableOpacity
                     style={{ position: "absolute", left: 120, bottom: 0 }}
                     onPress={() => this.toggleAddListaModal()}>
-                    <AntDesign name='pluscircleo' size={45} color={Colors.amethyst} />
+                    <AntDesign name='pluscircleo' size={45} color={Colors.sBlue} />
                  </TouchableOpacity>
 
                  <TouchableOpacity
                     style={{ position: "absolute", right: 120, bottom: 0 }}
-                    onPress={() => this.toggleSettingsModal()}>
-                     <AntDesign name='setting' size={45} color={Colors.amethyst} />
+                    onPress={() => this.props.navigation.navigate('Settings')}>
+                     <AntDesign name='setting' size={45} color={Colors.sBlue} />
                  </TouchableOpacity>
               </View>
 
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
      height: "100%",
   },
   divider: {
-     backgroundColor: Colors.tBLue,
+     backgroundColor: Colors.sBlue,
      height: 5,
      flex: 1,
      alignSelf: "center",

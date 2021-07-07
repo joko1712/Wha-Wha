@@ -6,10 +6,13 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
+  TouchableHighlight,
 } from 'react-native';
 import Colors from '../Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Voz from './Voz';
+import Feather from 'react-native-vector-icons/Feather';
+import Voice from '@react-native-voice/voice';
+
 export default class AddListaModal extends React.Component {
 
   backgroundColors = [
@@ -23,14 +26,75 @@ export default class AddListaModal extends React.Component {
      "#64DFDF",
      "#72EFDD",
      "#80FFDB",
-  ];
+   ];
 
   state = {
-     name: "",
-     color: this.backgroundColors[0],
-  };
+      name: "",
+      color: this.backgroundColors[0],
+      end: '',
+      started: '',
+   };
+
+   constructor(props) {
+      super(props);
+      Voice.onSpeechStart = this.onSpeechStart;
+      Voice.onSpeechEnd = this.onSpeechEnd;
+      Voice.onSpeechResults = this.onSpeechResults;
+   }
   
-  createLista = () => {
+   componentWillUnmount() {
+      Voice.destroy().then(Voice.removeAllListeners);
+   }
+  
+   onSpeechStart = (e) => {
+      console.log('onSpeechStart: ', e);
+      this.setState({
+        started: '√',
+      });
+   };
+  
+   onSpeechEnd = (e) => {
+      console.log('onSpeechEnd: ', e);
+      this.setState({
+        end: '√',
+      });
+   };
+  
+   onSpeechResults = (e) => {
+      console.log('onSpeechResults: ', e);
+      this.setState({
+        name: e.value[0].toUpperCase()
+      });
+   };
+  
+   _startRecognizing = async () => {
+      this.setState({
+        name: '',
+        started: '',
+        end: '',
+      });
+  
+      try {
+        await Voice.start('pt-PT');
+      } catch (e) {
+        console.error(e);
+      }
+   };
+  
+   _destroyRecognizer = async () => {
+      try {
+        await Voice.destroy();
+      } catch (e) {
+        console.error(e);
+      }
+      this.setState({
+        started: '',
+        name: '',
+        end: '',
+      });
+   };
+
+   createLista = () => {
      const { name, color } = this.state;
 
      const list = { name, color };
@@ -51,7 +115,7 @@ export default class AddListaModal extends React.Component {
            />
         );
      });
-  }
+  };
 
   render() {
      return (
@@ -70,7 +134,11 @@ export default class AddListaModal extends React.Component {
                     style={[styles.input]}
                     placeholder='ListName?'
                     onChangeText={(text) => this.setState({ name: text })}
+                    value={this.state.name}
                  />
+                  <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
+                     <Feather name='mic' size={50} color={Colors.amethyst} />
+                  </TouchableHighlight>
                  <TouchableOpacity
                     style={{
                        borderRadius: 4,
@@ -89,15 +157,17 @@ export default class AddListaModal extends React.Component {
                  }}>
                  {this.renderColors()}
               </View>
+
+               <TouchableHighlight style={styles.destroy} onPress={this._destroyRecognizer}>
+                  <Text>Destroy</Text>
+               </TouchableHighlight>
+
               <TouchableOpacity
                  style={[styles.create, { backgroundColor: this.state.color }]}
                  onPress={this.createLista}>
                  <Text style={{ color: Colors.white, fontWeight: "600" }}>
                     Create!
                  </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.create, { backgroundColor: this.state.color }]}>
-                 <Voz />
               </TouchableOpacity>
            </View>
         </KeyboardAvoidingView>
@@ -132,7 +202,7 @@ const styles = StyleSheet.create({
   },
   create: {
      marginTop: 24,
-     height: 250,
+     height: 50,
      borderRadius: 6,
      alignItems: "center",
      justifyContent: "center",
@@ -151,4 +221,24 @@ const styles = StyleSheet.create({
      alignItems: "center",
      paddingVertical: 25,
   },
+  destroy: {
+      marginTop: 25,
+      height: 50,
+      borderRadius: 6,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: Colors.red
+  },
+  button:{
+      position: 'absolute',
+      right: -15,
+  },
+  result:{
+   alignSelf: 'center',
+   justifyContent: 'center',
+   fontSize: 20,
+   marginVertical: 10,
+   fontWeight: '900',
+   paddingTop: 5
+  }
 });
