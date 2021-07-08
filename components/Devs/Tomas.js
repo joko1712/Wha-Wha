@@ -23,7 +23,7 @@ export default class Tomas extends React.Component {
                         <AntDesign name='arrowleft' size={45} color={Colors.black} />
                 </TouchableOpacity>
                 <View
-                    style={{ position: "absolute", right:'5%', top:'5%'}}>
+                    style={{ position: "absolute", right:'5%', top:'5%',marginBottom: 20}}>
                     <Image style={styles.foto} source={{uri: 'https://imgur.com/TxDfz0H.png'}} />
                 </View>
                 <View>

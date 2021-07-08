@@ -121,9 +121,9 @@ export default class AddListaModal extends React.Component {
      return (
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
            <TouchableOpacity
-              style={{ position: "absolute", top: 60, right: 32 }}
+              style={{ position: "absolute", top: '8%', right: 32 }}
               onPress={this.props.closeModal}>
-               <AntDesign name='close' size={45} color={Colors.black} />
+               <AntDesign name='close' size={45} color={Colors.white} />
            </TouchableOpacity>
 
            <View style={{ alignSelf: "stretch", marginHorizontal: 32 }}>
@@ -131,13 +131,14 @@ export default class AddListaModal extends React.Component {
 
               <View style={[styles.section, styles.footer]}>
                  <TextInput
-                    style={[styles.input]}
+                    style={[styles.input, {borderColor: this.state.color}]}
                     placeholder='ListName?'
+                     placeholderTextColor={Colors.white}
                     onChangeText={(text) => this.setState({ name: text })}
                     value={this.state.name}
                  />
                   <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
-                     <Feather name='mic' size={50} color={Colors.amethyst} />
+                     <Feather name='mic' size={50} color={this.state.color} />
                   </TouchableHighlight>
                  <TouchableOpacity
                     style={{
@@ -159,13 +160,13 @@ export default class AddListaModal extends React.Component {
               </View>
 
                <TouchableHighlight style={styles.destroy} onPress={this._destroyRecognizer}>
-                  <Text>Destroy</Text>
+                  <Text style={{fontWeight: "600", fontSize: 16 }}>Destroy</Text>
                </TouchableHighlight>
 
               <TouchableOpacity
                  style={[styles.create, { backgroundColor: this.state.color }]}
                  onPress={this.createLista}>
-                 <Text style={{ color: Colors.white, fontWeight: "600" }}>
+                 <Text style={{ color: Colors.white, fontWeight: "600", fontSize: 16 }}>
                     Create!
                  </Text>
               </TouchableOpacity>
@@ -180,11 +181,12 @@ const styles = StyleSheet.create({
      flex: 1,
      justifyContent: "center",
      alignItems: "center",
+     backgroundColor: Colors.bBlack
   },
   title: {
      fontSize: 28,
      fontWeight: "900",
-     color: Colors.black,
+     color: Colors.white,
      alignSelf: "center",
      marginBottom: 16,
   },
@@ -199,9 +201,10 @@ const styles = StyleSheet.create({
      position: "absolute",
      left: 0,
      width: "90%",
+     color: Colors.white
   },
   create: {
-     marginTop: 24,
+     marginTop: 15,
      height: 50,
      borderRadius: 6,
      alignItems: "center",

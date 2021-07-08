@@ -23,6 +23,7 @@ export default class ListasModal extends React.Component {
      newLista: "",
      end: '',
      started: '',
+     name: '',
   };
 
   constructor(props) {
@@ -128,7 +129,7 @@ export default class ListasModal extends React.Component {
                  styles.list,
                  {
                     textDecorationLine: list.bought ? "line-through" : "none",
-                    color: list.bought ? Colors.gray : Colors.black,
+                    color: list.bought ? Colors.gray : Colors.white,
                  },
               ]}>
               {list.title}
@@ -161,12 +162,12 @@ export default class ListasModal extends React.Component {
               <TouchableOpacity
                  style={{
                     position: "absolute",
-                    top: 50,
+                    top: "4%",
                     right: 32,
                     zIndex: 10,
                  }}
                  onPress={this.props.closeModal}>
-                  <AntDesign name='close' size={45} color={Colors.black} />
+                  <AntDesign name='close' size={45} color={Colors.white} />
               </TouchableOpacity>
 
               <View
@@ -175,7 +176,7 @@ export default class ListasModal extends React.Component {
                     styles.header,
                     { borderBottomColor: list.color },
                  ]}>
-                 <View>
+                 <View style={{left:10}}>
                     <Text style={styles.title}>{list.name}</Text>
                     <Text style={styles.taskCount}>
                        {boughtCount} of {listaCount} items
@@ -196,7 +197,7 @@ export default class ListasModal extends React.Component {
 
               <Text style={styles.result}>{this.state.name}</Text>
                <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
-                  <Feather name='mic' size={50} color={Colors.amethyst} />
+                  <Feather name='mic' size={50} color={list.color} />
                </TouchableHighlight>
 
               <View style={[styles.section, styles.footer]}>
@@ -207,6 +208,8 @@ export default class ListasModal extends React.Component {
                     style={[styles.input, { borderColor: list.color }]}
                     onChangeText={(text) => this.setState({ newLista: text })}
                     value={this.state.newLista}
+                    placeholder='ItemName?'
+                    placeholderTextColor={Colors.white}
                  />
                  <TouchableOpacity
                     style={[styles.addList, { backgroundColor: list.color }]}
@@ -225,20 +228,21 @@ const styles = StyleSheet.create({
      flex: 1,
      justifyContent: "center",
      alignItems: "center",
+     backgroundColor: Colors.bBlack
   },
   section: {
      alignSelf: "stretch",
   },
   header: {
      justifyContent: "flex-end",
-     marginLeft: 50,
+     marginLeft: 35,
      borderBottomWidth: 3,
      paddingBottom: 10,
      paddingTop: 30,
   },
   title: {
      fontSize: 30,
-     color: Colors.black,
+     color: Colors.white,
      fontWeight: "bold",
   },
   listaCount: {
@@ -259,7 +263,9 @@ const styles = StyleSheet.create({
      borderWidth: StyleSheet.hairlineWidth,
      borderRadius: 6,
      marginRight: 8,
+     marginLeft: 5,
      paddingHorizontal: 3,
+     color: Colors.white
   },
   addList: {
      borderRadius: 4,
@@ -316,5 +322,11 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       paddingTop: 5
    },
+   taskCount:{
+      fontSize: 13,
+     color: Colors.gray,
+     fontWeight: "100",
+     left: 5
+   }
 
 });

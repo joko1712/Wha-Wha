@@ -14,5 +14,6 @@ export default Colors = {
   aquamarine: '#80FFDB',
   gray: '#A4A4A4',
   red: '#D85963',
-  pink: '#DB7093'
+  pink: '#DB7093',
+  bBlack: '#0F1016'
 };

@@ -8,3 +8,4 @@ import {name as appName} from './app.json';
 import SwitchNavigator from './navigation/SwitchNavigator';
 
 AppRegistry.registerComponent(appName, () => SwitchNavigator);
+console.reportErrorsAsExceptions = false;

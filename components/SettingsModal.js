@@ -66,13 +66,13 @@ export default class SettingsModal extends React.Component {
                   <AntDesign name='poweroff' size={45} color={Colors.black} />
               </TouchableOpacity>
 
-              <View styles={styles.defini}>
+              <View>
                   <LinearGradient
-                  colors={[Colors.purple, Colors.sBlue]}
-                  style={styles.definiGraD}
-                  start={{ x: 1, y: 1 }}
-                  end={{ x: 0, y: 0 }}>
-                     <Text style={styles.title}>Definições</Text>
+                     colors={[Colors.purple, Colors.sBlue]}
+                     style={styles.definiGraD}
+                     start={{ x: 1, y: 1 }}
+                     end={{ x: 0, y: 0 }}>
+                     <Text style={styles.title}>Settings</Text>
                   </LinearGradient>
                </View>
 
@@ -106,7 +106,7 @@ export default class SettingsModal extends React.Component {
                      style={styles.definiGra}
                      start={{ x: 1, y: 1 }}
                      end={{ x: 0, y: 0 }}>
-                        <Text style={styles.items}> - Sobre Nós - </Text>
+                        <Text style={styles.items}> - About Us - </Text>
                      </LinearGradient>
                   </TouchableOpacity>
 
@@ -136,24 +136,22 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       marginVertical: 15,
       width: 300,
-      paddingHorizontal: 67
-   },
-   defini:{
-      position: 'absolute',
-      top: '20%',
-      
+      textAlign: 'center'
+
    },
    definiGraD:{
       borderRadius:25,
       borderWidth:1.5,
       borderRadius:40,
-      borderColor: Colors.purple
+      borderColor: Colors.purple,
    },
    definiGra:{
       borderRadius:25,
       borderWidth:2,
       borderRadius:36,
-      borderColor: Colors.gray
+      borderColor: Colors.gray,
+      alignItems: "center",
+      justifyContent: "center",
    },
    items:{
       fontSize: 20,
@@ -161,8 +159,12 @@ const styles = StyleSheet.create({
       color: Colors.white,
       paddingHorizontal: 20,
       marginVertical: 20,
+      alignItems: "center",
+      justifyContent: "center",
    },
    button:{
       marginBottom: 20, 
+      alignItems: "center",
+      justifyContent: "center",
    }
 });

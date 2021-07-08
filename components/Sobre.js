@@ -32,7 +32,7 @@ export default class Sobre extends React.Component {
                <TouchableOpacity
                  style={{ position: "absolute", top: '5%', left: '10%' }}
                  onPress={() => this.props.navigation.navigate('Settings')}>
-                  <AntDesign name='arrowleft' size={45} color={Colors.black} />
+                  <AntDesign name='arrowleft' size={45} color={Colors.white} />
               </TouchableOpacity>
 
               <Modal
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
        flex: 1,
        alignItems: "center",
        justifyContent: "center",
+       backgroundColor:Colors.bBlack
     },
     fotoZe:{
         width: 150,
@@ -118,5 +119,6 @@ const styles = StyleSheet.create({
     textName:{
         alignSelf: 'center',
         fontSize: 20,
+        color:Colors.white
     }
 });

@@ -49,7 +49,7 @@
   "jest": {
     "preset": "react-native"
   },
-  "description": "Voice app",
+  "description": "Wha-Wha",
   "main": "index.js",
   "author": "",
   "license": "ISC",

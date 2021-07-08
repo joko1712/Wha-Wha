@@ -25,6 +25,39 @@ export default class Login extends React.Component {
       .then(() => this.props.navigation.navigate('App'));
   };
 
+  validate = () => {
+    console.log(text);
+    let text = this.state.email; 
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) === false) {
+      console.log("Email is Not Correct!!!");
+      Alert.alert(
+        "SignUp Error",
+        "Email is Not Correct!",
+        [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+      return false;
+    }
+    if (this.state.password.length <= 8){
+        console.log("Password Not Secure");
+        Alert.alert(
+          "SignUp Error",
+          "Password must be at least 8 characters long!",
+          [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+        );
+      return false;
+    }
+    else {
+      this.setState({ email:text})
+      console.log("Email is Correct");
+      this.handleLogin()
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -52,7 +85,7 @@ export default class Login extends React.Component {
               placeholder="Email..."
               placeholderTextColor={Colors.vSBlue}
               value={this.state.email}
-              onChangeText={email => this.setState({email})}
+              onChangeText={(text) => this.setState({email:text})}
               autoCapitalize="none"
               keyboardType="email-address"
             />

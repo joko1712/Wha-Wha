@@ -25,6 +25,7 @@ export default class App extends React.Component {
      user: {},
      loading: true,
    };
+   
   
 
   componentDidMount() {

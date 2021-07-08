@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal, Alert,alert} from 'react-native';
 import Colors from '../Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -8,7 +8,6 @@ import auth from "@react-native-firebase/auth";
 
 export default class SettingsModal extends React.Component {
    state = {
-      //name: '',
       email: '',
       password: '',
    };
@@ -21,16 +20,46 @@ export default class SettingsModal extends React.Component {
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
+           Alert('E-mail already in use!')
           console.log('That email address is already in use!');
-        }
-    
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
         }
         console.error(error);
       })
       .then(() => this.props.navigation.navigate('Login'));
    };
+   
+   validate = () => {
+      console.log(text);
+      let text = this.state.email; 
+      let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+      if (reg.test(text) === false) {
+         console.log("Email is Not Correct!!!");
+         Alert.alert(
+            "SignUp Error",
+            "Email is Not Correct!",
+            [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+         );
+         return false;
+      }
+      if (this.state.password.length <= 8){
+         console.log("Password Not Secure");
+         Alert.alert(
+            "SignUp Error",
+            "Password must be at least 8 characters long!",
+            [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+         );
+         return false;
+      }
+      else {
+         this.setState({ email:text})
+         console.log("Email is Correct");
+         this.handleSignUp()
+      }
+   }
     
   render() {
      return (
@@ -67,20 +96,11 @@ export default class SettingsModal extends React.Component {
                </Text>
 
 
-               {/*<View style={styles.inputView} >
-                  <TextInput  
-                    style={styles.inputText}
-                    value={this.state.name}
-                    onChangeText={name => this.setState({ name })}
-                    placeholderTextColor={Colors.vSBlue}
-                    placeholder='Full Name...'/>
-               </View>*/}
-
                <View style={styles.inputView} >
                   <TextInput  
                     style={styles.inputText}
                     value={this.state.email}
-                    onChangeText={email => this.setState({ email })}
+                    onChangeText={(text) => this.setState({email:text})}
                     placeholder='Email...'
                     placeholderTextColor={Colors.vSBlue}
                     keyboardType='email-address'
@@ -98,7 +118,7 @@ export default class SettingsModal extends React.Component {
                </View>
 
 
-               <TouchableOpacity style={styles.loginBtn} onPress={this.handleSignUp}>
+               <TouchableOpacity style={styles.loginBtn} onPress={this.validate}>
                   <Text style={styles.loginText}>SignUp</Text>
                </TouchableOpacity>
            </LinearGradient>
