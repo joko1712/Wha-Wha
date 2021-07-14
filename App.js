@@ -31,7 +31,7 @@ export default class App extends React.Component {
   componentDidMount() {
      firestore = new Fire((error, user) => {
         if (error) {
-           return alert("Uh oh, something went wrong");
+           return alert("Uh oh, ocurreu um erro");
         }
 
         firestore.getLists((lists) => {
@@ -44,8 +44,8 @@ export default class App extends React.Component {
      if (auth().currentUser.emailVerified==false){
          auth().currentUser.sendEmailVerification();
          Alert.alert(
-            "Please Verify Your E-mail",
-            `Go to your E-mail Verify your Account`,
+            "Por favor valide o seu E-mail",
+            `Vá ao seu E-mail e valide o seu E-mail`,
             [
                {
                   text: "Ok",
@@ -80,6 +80,7 @@ export default class App extends React.Component {
      firestore.addList({
         name: list.name,
         color: list.color,
+        n: Date.now(),
         lista: [],
      });
   };
@@ -101,7 +102,7 @@ export default class App extends React.Component {
          );
       }
 
-     const cartas = this.state.lists.reverse();
+     const cartas = this.state.lists;
 
      return (
         <View style={styles.container}>

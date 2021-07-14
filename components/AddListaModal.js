@@ -12,6 +12,7 @@ import Colors from '../Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Voice from '@react-native-voice/voice';
+import Listas from './Listas';
 
 export default class AddListaModal extends React.Component {
 
@@ -33,6 +34,7 @@ export default class AddListaModal extends React.Component {
       color: this.backgroundColors[0],
       end: '',
       started: '',
+      active: true,
    };
 
    constructor(props) {
@@ -72,6 +74,7 @@ export default class AddListaModal extends React.Component {
         name: '',
         started: '',
         end: '',
+        active: false
       });
   
       try {
@@ -91,13 +94,14 @@ export default class AddListaModal extends React.Component {
         started: '',
         name: '',
         end: '',
+        active: true
       });
    };
 
    createLista = () => {
-     const { name, color } = this.state;
+     const { name, color} = this.state;
 
-     const list = { name, color };
+     const list = { name, color};
 
      this.props.addList(list);
 
@@ -127,17 +131,17 @@ export default class AddListaModal extends React.Component {
            </TouchableOpacity>
 
            <View style={{ alignSelf: "stretch", marginHorizontal: 32 }}>
-              <Text style={styles.title}>Create a List</Text>
+              <Text style={styles.title}>Criar Lista</Text>
 
               <View style={[styles.section, styles.footer]}>
                  <TextInput
                     style={[styles.input, {borderColor: this.state.color}]}
-                    placeholder='ListName?'
+                    placeholder='Nome da Lista?'
                      placeholderTextColor={Colors.white}
                     onChangeText={(text) => this.setState({ name: text })}
                     value={this.state.name}
                  />
-                  <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
+                  <TouchableHighlight style={this.state.active? styles.button: styles.buttonD}  onPress={this._startRecognizing}>
                      <Feather name='mic' size={50} color={this.state.color} />
                   </TouchableHighlight>
                  <TouchableOpacity
@@ -160,14 +164,14 @@ export default class AddListaModal extends React.Component {
               </View>
 
                <TouchableHighlight style={styles.destroy} onPress={this._destroyRecognizer}>
-                  <Text style={{fontWeight: "600", fontSize: 16 }}>Destroy</Text>
+                  <Text style={{fontWeight: "600", fontSize: 16 }}>Destruir</Text>
                </TouchableHighlight>
 
               <TouchableOpacity
                  style={[styles.create, { backgroundColor: this.state.color }]}
                  onPress={this.createLista}>
                  <Text style={{ color: Colors.white, fontWeight: "600", fontSize: 16 }}>
-                    Create!
+                    Criar!
                  </Text>
               </TouchableOpacity>
            </View>
@@ -235,6 +239,10 @@ const styles = StyleSheet.create({
   button:{
       position: 'absolute',
       right: -15,
+  },
+  buttonD:{
+      position: 'absolute',
+      right: -100000,
   },
   result:{
    alignSelf: 'center',

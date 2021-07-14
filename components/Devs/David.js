@@ -34,9 +34,6 @@ export default class David extends React.Component {
                     <Text>Turno: Diurno</Text>
                     <Text>Número: 30003332</Text>
                 </View> 
-
-
-
            </LinearGradient>
         </View>
      );

@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Keyboard,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 import Colors from '../Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +24,8 @@ export default class ListasModal extends React.Component {
      end: '',
      started: '',
      name: '',
+     newPrice:'',
+     active: true,
   };
 
   constructor(props) {
@@ -63,6 +65,7 @@ export default class ListasModal extends React.Component {
          newLista: '',
          started: '',
          end: '',
+         active: false
       });
 
       try {
@@ -82,6 +85,7 @@ export default class ListasModal extends React.Component {
          started: '',
          newLista: '',
          end: '',
+         active: true
       });
    };
 
@@ -96,14 +100,21 @@ export default class ListasModal extends React.Component {
      let list = this.props.list;
 
      if (!list.lista.some((lista) => lista.title === this.state.newLista)) {
-        list.lista.push({ title: this.state.newLista, bought: false });
-
+        list.lista.push({ title: this.state.newLista, bought: false, price:''});
         this.props.updateList(list);
-     }
+        this.setState({active: true});
+      }
 
      this.setState({ newLista: "" });
      Keyboard.dismiss();
-  };
+   };
+
+   addPrice = (index) =>{
+      let list = this.props.list;
+      list.lista[index].price=this.state.newPrice;
+      this.props.updateList(list);
+      this.setState({ newPrice: '' });
+   };
   
   deleteItem = (index) => {
      let list = this.props.list;
@@ -114,40 +125,64 @@ export default class ListasModal extends React.Component {
 
   renderList = (list, index) => {
      return (
-        <View style={styles.listaContainer}>
-           <TouchableOpacity onPress={() => this.toggleListaBought(index)}>
-              <Ionicons
-                 name={list.bought ? "ios-square" : "ios-square-outline"}
-                 size={24}
-                 color={Colors.gray}
-                 style={{ width: 32 }}
-              />
-           </TouchableOpacity>
+        <KeyboardAvoidingView behavior='padding'>
+           <SafeAreaView style={styles.listaContainer}>
+               <TouchableOpacity onPress={() => this.toggleListaBought(index)}>
+                  <Ionicons
+                     name={list.bought ? "ios-square" : "ios-square-outline"}
+                     size={24}
+                     color={Colors.gray}
+                     style={{ width: 32 }}
+                  />
+               </TouchableOpacity>
 
-           <Text
-              style={[
-                 styles.list,
-                 {
-                    textDecorationLine: list.bought ? "line-through" : "none",
-                    color: list.bought ? Colors.gray : Colors.white,
-                 },
-              ]}>
-              {list.title}
-           </Text>
-           <View style={{ flexDirection: "row", flex: 1 }}>
-              <TouchableOpacity
-                 onPress={() => this.deleteItem(index)}
-                 style={{
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    position: "absolute",
-                    right: 10,
-                    bottom: -10,
-                 }}>
-                  <AntDesign name='delete' size={25} color={Colors.red} />
-              </TouchableOpacity>
-           </View>
-        </View>
+               <Text numberOfLines={1}
+                  style={[
+                     styles.list,
+                     {
+                        textDecorationLine: list.bought ? "line-through" : "none",
+                        color: list.bought ? Colors.gray : Colors.white,
+                     },
+                  ]}>
+                  {list.title}
+               </Text>
+                  <Text style={{color:Colors.white,position:'absolute', right: 100, bottom:22, width: 100 }}>Preço:</Text>
+               <TextInput
+                  style={[
+                     styles.input,
+                     {position:'absolute', right: 30,bottom: 5, width: 100}
+                  ]}
+                     onChangeText={(text) => this.setState({ newPrice: text })}
+                     placeholder={list.price}
+                     placeholderTextColor={Colors.white}
+                     keyboardType='numeric'
+                     removeClippedSubviews={false}
+                     keyboardDismissMode='none'
+                  /> 
+                  <TouchableOpacity 
+                     onPress={() => this.addPrice(index)}
+                     style={[
+                     styles.list,
+                     {position:'absolute', right: -30,bottom: 18, width: 100}
+                  ]}>
+                        <AntDesign name='pluscircleo' size={25} color={Colors.green} />
+                  </TouchableOpacity>
+
+               <View style={{ flexDirection: "row", flex: 1 }}>
+                  <TouchableOpacity
+                     onPress={() => this.deleteItem(index)}
+                     style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        position: "absolute",
+                        right: 10,
+                        bottom: -15,
+                     }}>
+                        <AntDesign name='delete' size={25} color={Colors.red} />
+                  </TouchableOpacity>
+               </View>
+            </SafeAreaView>
+         </KeyboardAvoidingView>
      );
   };
 
@@ -177,38 +212,38 @@ export default class ListasModal extends React.Component {
                     { borderBottomColor: list.color },
                  ]}>
                  <View style={{left:10}}>
-                    <Text style={styles.title}>{list.name}</Text>
+                    <Text numberOfLines={1} style={styles.title}>{list.name}</Text>
                     <Text style={styles.taskCount}>
-                       {boughtCount} of {listaCount} items
+                       {boughtCount} of {listaCount} itens
                     </Text>
                  </View>
               </View>
 
-              <View style={[styles.section, { flex: 3, marginVertical: 16 }]}>
+              <View style={[styles.section, { flex: 3, marginVertical: 5 }]}>
                  <FlatList
                     data={list.lista}
                     renderItem={({ item, index }) =>
                        this.renderList(item, index)
                     }
                     keyExtractor={(item) => item.title}
-                    showsVerticalScrollIndicator={false}
+                    removeClippedSubviews={false}
                  />
               </View>
 
               <Text style={styles.result}>{this.state.name}</Text>
-               <TouchableHighlight style={styles.button} onPress={this._startRecognizing}>
+               <TouchableHighlight style={this.state.active? styles.button: styles.buttonD}  onPress={this._startRecognizing}>
                   <Feather name='mic' size={50} color={list.color} />
                </TouchableHighlight>
 
               <View style={[styles.section, styles.footer]}>
                   <TouchableHighlight style={styles.destroy} onPress={this._destroyRecognizer}>
-                     <Text>Clear</Text>
+                     <Text>Limpar</Text>
                   </TouchableHighlight>
                  <TextInput
                     style={[styles.input, { borderColor: list.color }]}
                     onChangeText={(text) => this.setState({ newLista: text })}
                     value={this.state.newLista}
-                    placeholder='ItemName?'
+                    placeholder='Nome do item?'
                     placeholderTextColor={Colors.white}
                  />
                  <TouchableOpacity
@@ -244,6 +279,7 @@ const styles = StyleSheet.create({
      fontSize: 30,
      color: Colors.white,
      fontWeight: "bold",
+     width: 280
   },
   listaCount: {
      marginTop: 4,
@@ -283,6 +319,7 @@ const styles = StyleSheet.create({
      color: Colors.black,
      fontWeight: "700",
      fontSize: 16,
+     width: 120
   },
   welcome: {
      fontSize: 20,
@@ -312,6 +349,11 @@ const styles = StyleSheet.create({
   button:{
       position: 'absolute',
       right: 30,
+      bottom: 80
+  },
+  buttonD:{
+      position: 'absolute',
+      right: -1000000,
       bottom: 80
   },
   result:{

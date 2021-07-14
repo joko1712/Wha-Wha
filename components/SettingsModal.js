@@ -19,8 +19,8 @@ export default class SettingsModal extends React.Component {
       auth()
          .sendPasswordResetEmail(auth().currentUser.email)
          Alert.alert(
-            "Password Reset",
-            `Go to your E-mail and reset your Password`,
+            "Redefinir Password",
+            `Vá para o seu e-mail e redefina sua senha`,
             [
                {
                   text: "Ok",
@@ -36,15 +36,15 @@ export default class SettingsModal extends React.Component {
    signOutAlert = () => {
       Alert.alert(
          "Sign Out",
-         `Do you wish to Sign Out?`,
+         `Deseja dar Sign Out?`,
          [
             {
-               text: "Cancel",
+               text: "Não",
                onPress: () => console.log("Cancel Pressed"),
                style: "cancel",
             },
             {
-               text: "Yes",
+               text: "Sim",
                onPress: () => this.handleSignout(),
             },
          ]
@@ -63,23 +63,17 @@ export default class SettingsModal extends React.Component {
                <TouchableOpacity
                  style={{ position: "absolute", top: '5%', right: '10%' }}
                  onPress={this.signOutAlert}>
-                  <AntDesign name='poweroff' size={45} color={Colors.black} />
+                  <AntDesign name='poweroff' size={45} color={Colors.sBlue} />
               </TouchableOpacity>
 
               <View>
-                  <LinearGradient
-                     colors={[Colors.purple, Colors.sBlue]}
-                     style={styles.definiGraD}
-                     start={{ x: 1, y: 1 }}
-                     end={{ x: 0, y: 0 }}>
-                     <Text style={styles.title}>Settings</Text>
-                  </LinearGradient>
+                  <Text style={styles.title}>Definições</Text>
                </View>
 
               <TouchableOpacity
                  style={{ position: "absolute", top: '5%', left: '10%' }}
                  onPress={() => this.props.navigation.navigate('App')}>
-                  <AntDesign name='close' size={45} color={Colors.black} />
+                  <AntDesign name='close' size={45} color={Colors.sBlue} />
               </TouchableOpacity>
 
               <View
@@ -96,7 +90,7 @@ export default class SettingsModal extends React.Component {
                      style={styles.definiGra}
                      start={{ x: 1, y: 1 }}
                      end={{ x: 0, y: 0 }}>
-                        <Text style={styles.items}> Change Password </Text>
+                        <Text style={styles.items}> Redefinir Password </Text>
                      </LinearGradient>
                   </TouchableOpacity>
 
@@ -106,7 +100,7 @@ export default class SettingsModal extends React.Component {
                      style={styles.definiGra}
                      start={{ x: 1, y: 1 }}
                      end={{ x: 0, y: 0 }}>
-                        <Text style={styles.items}> - About Us - </Text>
+                        <Text style={styles.items}> - Sobre nós - </Text>
                      </LinearGradient>
                   </TouchableOpacity>
 
@@ -130,11 +124,11 @@ const styles = StyleSheet.create({
      width: "100%",
   },
    title: {
-      fontSize: 35,
+      fontSize: 55,
       fontWeight: "800",
       color: Colors.white,
       paddingHorizontal: 20,
-      marginVertical: 15,
+      marginVertical: 10,
       width: 300,
       textAlign: 'center'
 

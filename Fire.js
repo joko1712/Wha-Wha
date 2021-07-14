@@ -29,13 +29,13 @@ class Fire {
    }
 
    getLists(callback) {
-      let ref = this.ref
-
+      let ref = this.ref.orderBy('n', "desc");
+      
       this.unsubscribe = ref.onSnapshot((snapshot) => {
          lists = [];
 
          snapshot.forEach((doc) => {
-            lists.push({ id: doc.id, ...doc.data() });
+            lists.push({ id: doc.id, ...doc.data()});
          });
 
          callback(lists);
@@ -69,7 +69,7 @@ class Fire {
          .collection("users")
          .doc(this.userId)
          .collection("lists");
-   }
+      }
 
    detach() {
       this.unsubscribe();

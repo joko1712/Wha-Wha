@@ -5,7 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  TextInput
+  TextInput,
+  Alert,
+  alert
 } from 'react-native';
 import Colors from '../Colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,6 +27,22 @@ export default class Login extends React.Component {
       .then(() => this.props.navigation.navigate('App'));
   };
 
+  forgotPass = () => {
+    auth()
+      .sendPasswordResetEmail(this.state.email)
+      Alert.alert(
+        "Recuperação de Password",
+        `Vá ao seu E-mail para poder recuperar a sua Password`,
+        [
+          {
+            text: "Ok",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          }
+        ]
+      );
+  }
+
   validate = () => {
     console.log(text);
     let text = this.state.email; 
@@ -32,8 +50,8 @@ export default class Login extends React.Component {
     if (reg.test(text) === false) {
       console.log("Email is Not Correct!!!");
       Alert.alert(
-        "SignUp Error",
-        "Email is Not Correct!",
+        "Erro Login",
+        "E-mail não está correto!",
         [
         { text: "OK", onPress: () => console.log("OK Pressed") }
         ]
@@ -41,10 +59,10 @@ export default class Login extends React.Component {
       return false;
     }
     if (this.state.password.length <= 8){
-        console.log("Password Not Secure");
+        console.log("Password não está segura");
         Alert.alert(
-          "SignUp Error",
-          "Password must be at least 8 characters long!",
+          "Erro Login",
+          "Password tem de ter pelo menos 8 caracteres!",
           [
           { text: "OK", onPress: () => console.log("OK Pressed") }
           ]
@@ -100,6 +118,11 @@ export default class Login extends React.Component {
               onChangeText={password => this.setState({password})}
             />
           </View>
+          <TouchableOpacity
+            onPress={() => this.forgotPass()}>
+            <Text style={styles.loginText}>Forgot Password</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.loginBtn} onPress={this.handleLogin}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
@@ -107,6 +130,7 @@ export default class Login extends React.Component {
             onPress={() => this.props.navigation.navigate('Signup')}>
             <Text style={styles.loginText}>SignUp</Text>
           </TouchableOpacity>
+        
         </LinearGradient>
       </View>
     );

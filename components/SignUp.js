@@ -20,7 +20,13 @@ export default class SettingsModal extends React.Component {
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-           Alert('E-mail already in use!')
+         Alert.alert(
+            "Erro SignUp",
+            "E-mail já está em uso!",
+            [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+         );
           console.log('That email address is already in use!');
         }
         console.error(error);
@@ -35,29 +41,29 @@ export default class SettingsModal extends React.Component {
       if (reg.test(text) === false) {
          console.log("Email is Not Correct!!!");
          Alert.alert(
-            "SignUp Error",
-            "Email is Not Correct!",
-            [
-            { text: "OK", onPress: () => console.log("OK Pressed") }
-            ]
-         );
-         return false;
-      }
-      if (this.state.password.length <= 8){
-         console.log("Password Not Secure");
-         Alert.alert(
-            "SignUp Error",
-            "Password must be at least 8 characters long!",
-            [
-            { text: "OK", onPress: () => console.log("OK Pressed") }
-            ]
-         );
-         return false;
+            "Erro Login",
+        "E-mail não está correto!",
+        [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+      return false;
+    }
+    if (this.state.password.length <= 8){
+        console.log("Password não está segura");
+        Alert.alert(
+          "Erro Login",
+          "Password tem de ter pelo menos 8 caracteres!",
+          [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+        );
+      return false;
       }
       else {
          this.setState({ email:text})
-         console.log("Email is Correct");
-         this.handleSignUp()
+         console.log("Email is Correct", this.state.email);
+         this.handleSignUp();
       }
    }
     

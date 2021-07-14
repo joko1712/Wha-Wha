@@ -19,7 +19,7 @@ export default class Listas extends React.Component {
   renderList = (list) => {
      return (
         <View style={styles.listaContainer}>
-           <Text
+           <Text numberOfLines={1}
               style={[
                  styles.list,
                  {
@@ -35,16 +35,16 @@ export default class Listas extends React.Component {
 
   createTwoButtonAlert = (list) => {
      Alert.alert(
-        "Delete",
-        `Do you wish to delete the List: ${this.props.list.name}`,
+        "Apagar",
+        `Tem a certeza que pretende apagar a Lista: ${this.props.list.name}`,
         [
            {
-              text: "Cancel",
+              text: "Cancelar",
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel",
            },
            {
-              text: "Yes",
+              text: "Sim",
               onPress: () => this.props.deleteList(this.props.list),
            },
         ]
@@ -88,11 +88,12 @@ export default class Listas extends React.Component {
                           data={list.lista
                              .filter((Listas) => !Listas.bought)
                              .slice(0, 3)}
-                          renderItem={({ item }) => this.renderList(item)}
-                          keyExtractor={(item) => item.title}
-                          contentContainerStyle={{
+                              renderItem={({ item }) => this.renderList(item)}
+                              keyExtractor={(item) => item.title}
+                              contentContainerStyle={{
                              paddingHorizontal: 32,
                              paddingVertical: 64,
+
                           }}
                           showsVerticalScrollIndicator={false}
                        />
@@ -102,11 +103,11 @@ export default class Listas extends React.Component {
                  <View style={{ marginRight: 50}}>
                     <View style={{ alignItems: "center" }}>
                        <Text style={styles.count}>{remaining}</Text>
-                       <Text style={styles.subtitle}>Remaining</Text>
+                       <Text style={styles.subtitle}>Restantes</Text>
                     </View>
                     <View style={{ alignItems: "center" }}>
                        <Text style={styles.count}>{boughtCont}</Text>
-                       <Text style={styles.subtitle}>Bought</Text>
+                       <Text style={styles.subtitle}>Comprados</Text>
                     </View>
                  </View>
               </View>
@@ -145,8 +146,9 @@ const styles = StyleSheet.create({
   list: {
      color: Colors.white,
      fontWeight: "700",
-     fontSize: 22,
+     fontSize: 20,
      marginBottom: 15,
      marginTop: 8,
+     width: 130
   },
 });

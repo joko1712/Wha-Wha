@@ -15,5 +15,6 @@ export default Colors = {
   gray: '#A4A4A4',
   red: '#D85963',
   pink: '#DB7093',
-  bBlack: '#0F1016'
+  bBlack: '#0F1016',
+  green: '#00D100'
 };
